@@ -113,7 +113,7 @@ with open("./step_1_scraping_one_book.csv", "w", encoding="utf-8") as file:
 with open("step_1_scraping_one_book.csv", "r") as csv_file:
 	csv_reader = csv.reader(csv_file)
 
-	print(csv_reader)
+	#print(csv_reader)
 
 
 #print(book_data)
