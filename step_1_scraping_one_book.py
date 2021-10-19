@@ -52,6 +52,9 @@ if response.ok:
 		if target_dict:
 			if "Â" in datum_value:
 				datum_value = datum_value.replace("Â", "")
+			if "In stock" in datum_value:
+				datum_value = datum_value.replace("In stock (", "")
+				datum_value = datum_value.replace(" available)", "")
 
 
 		book_data[target_dict] = datum_value
