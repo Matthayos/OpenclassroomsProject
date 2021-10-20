@@ -121,8 +121,7 @@ with open("step_1_scraping_one_book.csv", "r") as csv_file:
 
 #print(book_data)
 
-
-
+print(response)
 
 
 
