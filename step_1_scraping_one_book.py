@@ -24,7 +24,7 @@ book_data = {"product_page_url": "http://books.toscrape.com/catalogue/sapiens-a-
 
 response = requests.get(book_data["product_page_url"])
 
-if response.ok:
+if response.status_code == 200:
 	soup = BeautifulSoup(response.text, "html.parser")
 
 # extracting universal_product_code (upc) / price_exculding_tax / price_inculding_tax from book_table / availability
@@ -105,7 +105,7 @@ if response.ok:
 #codec "charmap" unicodeEncoreError. Had to write -> with open("./scrappy_etape_1.csv", "w", encoding="utf-8") as file:
 
 
-with open("./step_1_scraping_one_book.csv", "w", encoding="utf-8") as file:
+with open("step_1_scraping_one_book.csv", "w", encoding="utf-8") as file:
 	writer = csv.writer(file, delimiter=",")
 
 # headers
@@ -119,7 +119,7 @@ with open("step_1_scraping_one_book.csv", "r") as csv_file:
 	#print(csv_reader)
 
 
-#print(book_data)
+print(book_data)
 
 print(response)
 
