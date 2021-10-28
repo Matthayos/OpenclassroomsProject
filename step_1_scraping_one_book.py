@@ -102,7 +102,7 @@ if response.status_code == 200:
 	book_data["review_rating"] = review_rating
 
 # creating csv file with book_data
-#codec "charmap" unicodeEncoreError. Had to write -> with open("./scrappy_etape_1.csv", "w", encoding="utf-8") as file:
+#codec "charmap" unicodeEncoreError. Had to write -> with open("step_1_scraping_one_book.csv", "w", encoding="utf-8") as file:
 
 
 with open("step_1_scraping_one_book.csv", "w", encoding="utf-8") as file:
@@ -119,9 +119,11 @@ with open("step_1_scraping_one_book.csv", "r") as csv_file:
 	#print(csv_reader)
 
 
-print(book_data)
+#print(book_data)
 
 print(response)
+
+
 
 
 
