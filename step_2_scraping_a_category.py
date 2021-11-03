@@ -9,6 +9,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import time
 from tqdm import tqdm
 
 
@@ -28,8 +29,47 @@ def scraping_books_category(soup):
 
 
 
-def book_data(url):
-	book_data = {"product_page_url": "http://books.toscrape.com/catalogue/sapiens-a-brief-history-of-humankind_996/index.html"}
+def find_products_url_by_category(url_categ):
+    # 20 books by page
+    response = requests.get(url_categ)
+    links = []
+
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        is_pagination = soup.find("ul", {"class": "pager"})
+
+        if is_pagination:
+            nbPages = is_pagination.find('li', {"class": "current"}).text.strip()
+            nbPages = int(nbPages[-1:])
+
+           if nbPages:
+           	for i in range(1, nbPages + 1):
+           		url = url_categ.replace("index.html", "page-" + str(i) + "html")
+
+           		response = requests.get(url)
+
+           		if response.status_code == 200:
+           			soup = BeautifulSoup(response.text, "html.parser")
+           			links += scraping_books_category(soup)
+
+           		time.sleep(0.05)
+
+            
+        else:
+            print("scrapping of category url : " + url_categ)
+            links = scraping_books_category(soup)
+
+    return links
+
+
+
+
+
+
+
+def scrap_one_book(url):
+	book_data = {"product_page_url": url}
 
 	response = requests.get(book_data["product_page_url"])
 
@@ -108,27 +148,41 @@ def book_data(url):
 
 		book_data["review_rating"] = review_rating
 
+	return book_data
 
 
-	# creating csv file with book_data
-
-	with open("step_2_scraping_a_category.csv", "w", encoding="utf-8") as file:
-		writer = csv.writer(file, delimiter=",")
-
-	# headers
-		writer.writerow(book_data.keys())
-	# values
-		writer.writerow(book_data.values())
-
-	with open("step_2_scraping_a_category.csv", "r") as csv_file:
-		csv_reader = csv.reader(csv_file)
-
-		#print(csv_reader)
 
 
-	#print(book_data)
+category_url = "http://books.toscrape.com/catalogue/category/books/history_32/index.html"
+links = find_products_url_by_category(category_url)
 
-	print(response)
+if links:
+	books_data = []
+
+	for url in book_data:
+		books_data.append(str(url))
+
+	text=""
+	for char in tqdm(book_data):
+		time.sleep(0.0025)
+		book_data = text + char
+
+		# creating csv file with book_data
+
+        # Ecriture fichier csv
+
+            with open('./scrappy_etape_2/', 'w', encoding="utf-8") as file:
+                writer = csv.writer(file)
+
+                # En têtes
+                writer.writerow(books_data[0].keys())
+
+                # Values
+                writer.writerow(books_data.values())
+
+
+
+print(response)
 
 
 
