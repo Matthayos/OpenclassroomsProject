@@ -43,21 +43,22 @@ def find_products_url_by_category(url_categ):
             nbPages = is_pagination.find('li', {"class": "current"}).text.strip()
             nbPages = int(nbPages[-1:])
 
-            if nbPages:
-            	for i in range(1, nbPages + 1):
-            		url = url_categ.replace("index.html", "page-" + str(i) + ".html")
+           if nbPages:
+           	for i in range(1, nbPages + 1):
+           		url = url_categ.replace("index.html", "page-" + str(i) + "html")
 
-            		response = requests.get(url)
+           		response = requests.get(url)
 
-            		if (response.status_code == 200):
-            			soup = BeautifulSoup(response.text, "html.parser")
+           		if response.status_code == 200:
+           			soup = BeautifulSoup(response.text, "html.parser")
+           			links += scraping_books_category(soup)
 
-            			links += scraping_books_category(soup)
-            		time.sleep(0.025) #avoiding blacklist
+           		time.sleep(0.05)
 
-            else:
-            	
-            	links = scraping_books_category(soup)
+            
+        else:
+            print("scrapping of category url : " + url_categ)
+            links = scraping_books_category(soup)
 
     return links
 
@@ -150,7 +151,7 @@ def scrap_one_book(url):
 	return book_data
 
 
-	print(response)
+
 
 category_url = "http://books.toscrape.com/catalogue/category/books/history_32/index.html"
 links = find_products_url_by_category(category_url)
@@ -159,7 +160,7 @@ if links:
 	books_data = []
 
 	for url in book_data:
-		books_data.append(book_data(url))
+		books_data.append(str(url))
 
 	text=""
 	for char in tqdm(book_data):
@@ -168,24 +169,20 @@ if links:
 
 		# creating csv file with book_data
 
-        # writing csv file
-	with open('step_2_scraping_a_category.csv', 'w', encoding="utf-8") as file:
-            writer = csv.writer(file, delimiter=",")
+        # Ecriture fichier csv
 
-            # Headers
-            writer.writerow(book_data[0].keys())
+            with open("step_2_scraping_a_category.csv", "w", encoding="utf-8") as file:
+                writer = csv.writer(file)
 
-            # Values
-            for book_data in books_data:
-            	writer.writerow(book_data.values())
-	with open("step_2_scraping_a_category.csv", "r") as csv_file:
-		csv_reader = csv.reader(csv_file)
+                # En têtes
+                writer.writerow(books_data[0].keys())
 
-		print(csv_reader)
-#TEST
+                # Values
+                writer.writerow(books_data.values())
 
 
 
+print(response)
 
 
 
