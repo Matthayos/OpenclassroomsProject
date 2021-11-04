@@ -168,11 +168,11 @@ if links:
 
 		# creating csv file with book_data
 
-        # Ecriture fichier csv
+        # writing csv file
 	with open('step_2_scraping_a_category.csv', 'w', encoding="utf-8") as file:
-            writer = csv.writer(file)
+            writer = csv.writer(file, delimiter=",")
 
-            # En têtes
+            # Headers
             writer.writerow(books_data[0].keys())
 
             # Values
