@@ -159,7 +159,7 @@ if links:
 	books_data = []
 
 	for url in book_data:
-		books_data.append(str(url))
+		books_data.append(book_data(url))
 
 	text=""
 	for char in tqdm(book_data):
