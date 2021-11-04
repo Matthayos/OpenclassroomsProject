@@ -169,7 +169,7 @@ if links:
 		# creating csv file with book_data
 
         # Ecriture fichier csv
-	with open('./scrappy_etape_2/', 'w', encoding="utf-8") as file:
+	with open('step_2_scraping_a_category.csv', 'w', encoding="utf-8") as file:
             writer = csv.writer(file)
 
             # En têtes
