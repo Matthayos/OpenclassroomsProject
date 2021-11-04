@@ -178,7 +178,10 @@ if links:
             # Values
             for book_data in books_data:
             	writer.writerow(book_data.values())
+	with open("step_2_scraping_a_category.csv", "r") as csv_file:
+		csv_reader = csv.reader(csv_file)
 
+		print(csv_reader)
 #TEST
 
 
