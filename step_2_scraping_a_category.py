@@ -173,7 +173,7 @@ if links:
             writer = csv.writer(file, delimiter=",")
 
             # Headers
-            writer.writerow(books_data[0].keys())
+            writer.writerow(book_data[0].keys())
 
             # Values
             for book_data in books_data:
