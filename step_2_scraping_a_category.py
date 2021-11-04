@@ -176,7 +176,8 @@ if links:
             writer.writerow(books_data[0].keys())
 
             # Values
-            writer.writerow(books_data.values())
+            for book_data in books_data:
+            	writer.writerow(book_data.values())
 
 #TEST
 
