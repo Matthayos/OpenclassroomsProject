@@ -43,22 +43,21 @@ def find_products_url_by_category(url_categ):
             nbPages = is_pagination.find('li', {"class": "current"}).text.strip()
             nbPages = int(nbPages[-1:])
 
-           if nbPages:
-           	for i in range(1, nbPages + 1):
-           		url = url_categ.replace("index.html", "page-" + str(i) + "html")
+            if nbPages:
+            	for i in range(1, nbPages + 1):
+            		url = url_categ.replace("index.html", "page-" + str(i) + ".html")
 
-           		response = requests.get(url)
+            		response = requests.get(url)
 
-           		if response.status_code == 200:
-           			soup = BeautifulSoup(response.text, "html.parser")
-           			links += scraping_books_category(soup)
+            		if (response.status_code == 200):
+            			soup = BeautifulSoup(response.text, "html.parser")
 
-           		time.sleep(0.05)
+            			links += scraping_books_category(soup)
+            		time.sleep(0.025) #avoiding blacklist
 
-            
-        else:
-            print("scrapping of category url : " + url_categ)
-            links = scraping_books_category(soup)
+            else:
+            	
+            	links = scraping_books_category(soup)
 
     return links
 
@@ -151,7 +150,7 @@ def scrap_one_book(url):
 	return book_data
 
 
-
+	print(response)
 
 category_url = "http://books.toscrape.com/catalogue/category/books/history_32/index.html"
 links = find_products_url_by_category(category_url)
@@ -170,19 +169,19 @@ if links:
 		# creating csv file with book_data
 
         # Ecriture fichier csv
+	with open('./scrappy_etape_2/', 'w', encoding="utf-8") as file:
+            writer = csv.writer(file)
 
-            with open('./scrappy_etape_2/', 'w', encoding="utf-8") as file:
-                writer = csv.writer(file)
+            # En têtes
+            writer.writerow(books_data[0].keys())
 
-                # En têtes
-                writer.writerow(books_data[0].keys())
+            # Values
+            writer.writerow(books_data.values())
 
-                # Values
-                writer.writerow(books_data.values())
-
+#TEST
 
 
-print(response)
+
 
 
 
