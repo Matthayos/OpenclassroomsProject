@@ -34,9 +34,9 @@ except ImportError as e:
 
 
 def find_products_url_by_category(url_categ):
-	    	# 20 books by page
-	    	response = requests.get(url_categ)
-	    	links = []
+    	# 20 books by page
+    	response = requests.get(url_categ)
+    	links = []
 
 
 	if response.status_code == 200:
