@@ -175,7 +175,7 @@ links = find_products_url_by_category(category_url)
 print("Urls récupérées")
 
 for url in links:
-	print(f'Création d un livre pour : -> {url}')
+	print(f'Création d un livre pour : -> {category_url}')
 	book_data = scrap_one_book(url)
 	write_book(book_data)
 
