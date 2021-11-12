@@ -34,6 +34,13 @@ def find_products_url_by_category(url_categ):
     response = requests.get(url_categ)
     links = []
 
+
+try:
+	response = requests.get(url)
+	print("Ok, récupération")
+except ImportError as e:
+	print("Erreur de récupération")
+
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -43,17 +50,17 @@ def find_products_url_by_category(url_categ):
             nbPages = is_pagination.find('li', {"class": "current"}).text.strip()
             nbPages = int(nbPages[-1:])
 
-           if nbPages:
-           	for i in range(1, nbPages + 1):
-           		url = url_categ.replace("index.html", "page-" + str(i) + "html")
+	       if nbPages:
+	       	for i in range(1, nbPages + 1):
+	       		url = url_categ.replace("index.html", "page-" + str(i) + "html")
 
-           		response = requests.get(url)
+	       		response = requests.get(url)
 
-           		if response.status_code == 200:
-           			soup = BeautifulSoup(response.text, "html.parser")
-           			links += scraping_books_category(soup)
+	       		if response.status_code == 200:
+	       			soup = BeautifulSoup(response.text, "html.parser")
+	       			links += scraping_books_category(soup)
 
-           		time.sleep(0.05)
+	       		time.sleep(0.05)
 
             
         else:
@@ -61,7 +68,6 @@ def find_products_url_by_category(url_categ):
             links = scraping_books_category(soup)
 
     return links
-
 
 
 
@@ -150,28 +156,10 @@ def scrap_one_book(url):
 
 	return book_data
 
-
-
-
-category_url = "http://books.toscrape.com/catalogue/category/books/history_32/index.html"
-links = find_products_url_by_category(category_url)
-
-if links:
-	books_data = []
-
-	for url in book_data:
-		books_data.append(str(url))
-
-	text=""
-	for char in tqdm(book_data):
-		time.sleep(0.0025)
-		book_data = text + char
-
-		# creating csv file with book_data
-
-        # Ecriture fichier csv
-
-            with open("step_2_scraping_a_category.csv", "w", encoding="utf-8") as file:
+def write_book(book_data)
+			
+			f"step_2_scraping_a_category{book_data}.csv"
+            with open(f"book_{book_data["title"]}.csv", "w", encoding="utf-8") as file:
                 writer = csv.writer(file)
 
                 # En têtes
@@ -179,6 +167,32 @@ if links:
 
                 # Values
                 writer.writerow(books_data.values())
+                return books_data["title"]
+
+category_url = "http://books.toscrape.com/catalogue/category/books/history_32/index.html"
+
+print("Récupération des urls")
+
+links = find_products_url_by_category(category_url)
+
+print("Urls récupérées")
+
+for url in links:
+	print(f'Création d un livre pour : -> {url}')
+	book_data = scrap_one_book(url)
+	write_book(book_data)
+
+
+
+for url in tqdm(links):
+	print(url)
+
+
+		# creating csv file with book_data
+
+        # Ecriture fichier csv
+
+
 
 
 
