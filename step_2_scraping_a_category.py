@@ -49,23 +49,23 @@ def find_products_url_by_category(url_categ):
 			nbPages = int(nbPages[-1:])
 
 			if nbPages:
-					       	for i in range(1, nbPages + 1):
-					       		url = url_categ.replace("index.html", "page-" + str(i) + "html")
+			       	for i in range(1, nbPages + 1):
+			       		url = url_categ.replace("index.html", "page-" + str(i) + "html")
 
-					       		response = requests.get(url)
+			       		response = requests.get(url)
 
-					       		if response.status_code == 200:
-					       			soup = BeautifulSoup(response.text, "html.parser")
-					       			links += scraping_books_category(soup)
+			       		if response.status_code == 200:
+			       			soup = BeautifulSoup(response.text, "html.parser")
+			       			links += scraping_books_category(soup)
 
-					       		time.sleep(0.05)
+			       		time.sleep(0.05)
 
 		            
 	 else:
 		            print("scrapping of category url : " + url_categ)
 		            links = scraping_books_category(soup)
 
-return links
+	return links
 
 
 
