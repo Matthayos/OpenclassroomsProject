@@ -141,7 +141,7 @@ def write_book(book_data):
     with open(f"book_{book_data['title']}.csv", "w", encoding="utf-8") as file:
         writer = csv.writer(file)
 
-        # En têtes
+        # Headers
         writer.writerow(book_data[0])
 
         # Values
