@@ -8,7 +8,7 @@
 
 import csv
 import time
-import urllib.requests
+import urllib.request
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -155,8 +155,8 @@ def write_book(book_data):
 
 
 
-# dl pictures from url
-urllib.requests.urlretrieve(book_data["image_url"])
+
+
 
 #def get_categories():
 
@@ -175,6 +175,7 @@ for category in categories_url:
     for url in links:
         print(f'Création d un livre pour : -> {categories_url}')
         book_data = scrap_one_book(url)
+        urllib.request.urlretrieve(book_data["image_url"]) # dl pictures from url
         write_book(book_data)
 
     for url in tqdm(links):
