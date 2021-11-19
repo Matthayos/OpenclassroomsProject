@@ -14,24 +14,13 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 
-def scraping_books_category(soup):
-        links = []
-
-        books = soup.select("article.product_pod")  # <-- name html
-
-        for book in books:
-            href = book.find("a")["href"]  # <-- tag html
-            href = href.split("/")
-            links.append("http://books.toscrape.com/catalogue/" + href[-2] + "/" + href[-1])
-
-        return links
 
 
-
-def find_products_url_by_category(url_categ):
+def get_links_and_categories(url_categ):
     # 20 books by page
     response = requests.get(url_categ)
     links = []
+    categ = []
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
@@ -57,8 +46,14 @@ def find_products_url_by_category(url_categ):
     else:
         print("scrapping of category url : " + url_categ)
         links = scraping_books_category(soup)
+    books = soup.select("article.product_pod")  # <-- name html
 
-    return links
+    for book in books:
+        href = book.find("a")["href"]  # <-- tag html
+        href = href.split("/")
+        categ.append("http://books.toscrape.com/catalogue/" + href[-2] + "/" + href[-1])
+
+    return links, categ
 
 
 def scrap_one_book(url):
@@ -162,14 +157,16 @@ def write_book(book_data):
 
     #return categories
 
-categories_url = scraping_books_category(soup)
+
+
+print("Récupération des urls")
+
+
+links, categ = get_links_and_categories()
 
 for category in categories_url:
-    print("Récupération des urls")
 
-    links = find_products_url_by_category(categories_url)
 
-    print("Urls récupérées")
 
     # Ecriture fichier csv
     for url in links:
